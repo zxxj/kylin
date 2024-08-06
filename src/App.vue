@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { RouterView } from "vue-router"
 </script>
 
 <template>
-  <a-button>123</a-button>
+  <a-config-provider :theme="{ token: { colorPrimary: '#000' } }">
+    <RouterView />
+  </a-config-provider>
 </template>
