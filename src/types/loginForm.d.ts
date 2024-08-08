@@ -3,3 +3,9 @@ export interface LoginFormType {
   password: string
   remember: boolean
 }
+
+export interface RegisterFormType {
+  username: string
+  password: string
+  lang: string
+}
