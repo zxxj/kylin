@@ -18,6 +18,17 @@
 			</a-input-password>
 		</a-form-item>
 
+		<a-form-item label="验证码" name="verifyCode">
+			<a-input v-model:value="loginForm.verifyCode">
+				<template #prefix>
+					<SafetyOutlined class="site-form-item-icon" />
+				</template>
+
+				<template #suffix>
+					<img class="w-14" :src="captchaImg" />
+				</template>
+			</a-input>
+		</a-form-item>
 		<a-form-item>
 			<a-form-item name="remember" no-style>
 				<a-checkbox v-model:checked="loginForm.remember">记住我</a-checkbox>
@@ -33,20 +44,31 @@
 	</a-form>
 </template>
 <script lang="ts" setup>
-import { reactive, computed, onMounted } from 'vue';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { reactive, computed, onMounted, ref } from 'vue';
+import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons-vue';
 import type { LoginFormType } from "@/types/loginForm"
 import { getCode } from '@/services/modules/auth.api';
+import { useAuthStore } from '@/stores/modules/auth';
+import { setLocalItem } from '@/utils/auth';
+import { message } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
+import { AuthEnums } from '@/enums/auth.enum';
 
-onMounted(async () => {
-	const res = await getCode()
-	console.log(res);
+onMounted(() => {
+	getCaptcha()
 })
+
+const router = useRouter()
+const authStore = useAuthStore()
 const emit = defineEmits(['isShowRegisterForm'])
 
+const captchaImg = ref('')
+
 const loginForm = reactive<LoginFormType>({
-	username: '',
-	password: '',
+	username: 'kylin',
+	password: 'Zhangxinxin1.',
+	verifyCode: '',
+	captchaId: '',
 	remember: true,
 });
 
@@ -57,8 +79,26 @@ const rules = [
 	{ required: true, message: '请输入密码!' }
 ]
 
-const onFinish = (values: any) => {
-	console.log('Success:', values);
+const getCaptcha = async () => {
+	const { data } = await getCode()
+	loginForm.captchaId = data.id
+	captchaImg.value = data.img
+}
+
+const onFinish = async () => {
+	try {
+		const { code, data, message: msg } = await authStore.login(loginForm)
+		if (code === 200) {
+			message.success('登录成功!')
+			setLocalItem(AuthEnums.TOKEN, data.token)
+			router.push('/')
+		} else {
+			message.error(msg)
+		}
+	} catch (error) {
+		console.log('loginForm: error', error);
+	}
+
 };
 
 const onFinishFailed = (errorInfo: any) => {
