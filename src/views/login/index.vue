@@ -1,7 +1,7 @@
 <template>
 	<div class="flex w-screen h-screen ">
 		<div class="flex-1 desc bg-zinc-950 ">1</div>
-		<div class="flex items-center justify-center w-96 loginOrRegisterContent bg-neutral-50 ">
+		<div class="flex items-center justify-center w-1/3 loginOrRegisterContent bg-neutral-50 ">
 			<LoginForm v-show="!toggle" @isShowRegisterForm="isShowRegisterForm" />
 
 			<RegisterForm v-show="toggle" @isShowLoginForm="isShowLoginForm" />

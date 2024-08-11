@@ -1,3 +1,7 @@
 export enum AuthEnums {
-  TOKEN = 'kylin-token'
+  // token
+  TOKEN = 'kylin-token',
+
+  // 记住用户名与密码
+  USERNAME_AND_PASSWORD = 'ukey-pwkey'
 }
