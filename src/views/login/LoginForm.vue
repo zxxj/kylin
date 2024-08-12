@@ -96,6 +96,7 @@ const onFinish = async (): Promise<void> => {
 		if (code === 200) {
 			message.success('登录成功!')
 			setLocalItem(AuthEnums.TOKEN, data.token)
+			authStore.setToken(data.token)
 			if (loginForm.remember) setLocalItem(AuthEnums.USERNAME_AND_PASSWORD, loginForm)
 			router.push('/')
 		} else {
