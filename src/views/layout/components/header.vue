@@ -1,7 +1,13 @@
 <template>
-	<div class="bg-zinc-950 header-container text-gray-50 ">header</div>
+	<div class="w-full " :style="{ backgroundColor: settingStore.getGlobalColor }">
+
+	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useSettingStore } from '@/stores/modules/setting';
+
+const settingStore = useSettingStore()
+</script>
 
 <style scoped lang="scss"></style>

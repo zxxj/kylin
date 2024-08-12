@@ -1,21 +1,22 @@
 <template>
-	<div class="w-full sider">
-
-		<div class="flex items-center justify-center w-full h-16 bg-white desc-container">
+	<div class="w-full sider ">
+		<div class="flex items-center justify-center w-full h-16 logo-container">
 			<div class="logo"></div>
 			<div class="text">Kylin</div>
 		</div>
 
 		<a-menu v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys" mode="inline" :items="items"
-			@click="handleClick" class="bg-zinc-950 text-gray-50 "></a-menu>
+			@click="handleClick"></a-menu>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref, watch, h } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
+import { MailOutlined, AppstoreOutlined } from '@ant-design/icons-vue';
 import type { MenuProps } from 'ant-design-vue';
+import { useSettingStore } from '@/stores/modules/setting';
 
+const settingStore = useSettingStore()
 const selectedKeys = ref<string[]>(['1']);
 const openKeys = ref<string[]>(['sub1']);
 
@@ -63,26 +64,10 @@ watch(openKeys, val => {
 });
 </script>
 
-<style scoped lang="scss">
-:deep(.ant-menu-item-group-title) {
-	color: rgb(249, 250, 251);
-}
-
-:deep(.ant-menu-item:hover) {
-	color: rgb(249, 250, 251) !important;
-	background-color: #404040 !important;
-}
-
-:deep(.ant-menu-submenu-title) {
-	color: rgb(249, 250, 251) !important;
-}
-
-:deep(.ant-menu-submenu-title:hover) {
-	color: rgb(249, 250, 251) !important;
-	background-color: #404040 !important;
-}
-
-:deep(.ant-menu-item-selected) {
-	color: rgb(249, 250, 251) !important;
+<style lang=scss scoped>
+.logo-container {
+	background: #fff;
+	border-bottom: 1px solid #e5e7eb;
+	padding: 0;
 }
 </style>
